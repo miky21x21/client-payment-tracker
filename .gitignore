@@ -1,0 +1,4 @@
+# local backups and exports that may contain credentials or real data
+*.tar.gz
+*-private.*
+.env
