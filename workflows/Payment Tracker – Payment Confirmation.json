@@ -1,0 +1,289 @@
+{
+  "name": "Payment Tracker – Payment Confirmation",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
+          "mode": "list",
+          "cachedResultName": "client-payment-tracker v1 (working)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 271510427,
+          "mode": "list",
+          "cachedResultName": "Payments",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=271510427"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -16
+      ],
+      "id": "1b856d90-6bfd-423a-9565-f226615ce659",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "1I5IHbjQ7aJayc6G",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "545c40c6-3050-4daf-be16-2cb5d45ac7c4",
+              "name": "sub_id",
+              "value": "={{ $json['Service reference'].slice(0,6) }}",
+              "type": "string"
+            },
+            {
+              "id": "9eb239fc-f127-440b-a62b-b2f7d39e9d9f",
+              "name": "amount",
+              "value": "={{ Number($json['Amount received']) }}",
+              "type": "number"
+            },
+            {
+              "id": "9965f7b6-83ca-4340-8b76-90880216abdf",
+              "name": "pay_date",
+              "value": "={{ DateTime.fromFormat($json['Payment date'], 'M/d/yyyy').toFormat('dd MMM yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "05f81250-1541-40a4-88cc-f28d1ea4ed54",
+              "name": "mode",
+              "value": "={{ $json['Payment mode'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d135c014-2404-48be-b2b1-1d0eb2f8e853",
+              "name": "utr",
+              "value": "={{ $json['UTR / Reference'] || '—' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        112,
+        -16
+      ],
+      "id": "afed0157-d0c8-4dae-98fd-7255dcf8a77c",
+      "name": "Parse"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        256,
+        -16
+      ],
+      "id": "73e045c0-9123-49d1-a461-9eabe84d8d9d",
+      "name": "Wait",
+      "webhookId": "bb4f062c-5d0f-4a7f-8d0d-6ee83959b0d5"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
+          "mode": "list",
+          "cachedResultName": "client-payment-tracker v1 (working)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1806586767,
+          "mode": "list",
+          "cachedResultName": "Subscriptions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=1806586767"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "sub_id",
+              "lookupValue": "={{ $('Parse').item.json.sub_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        400,
+        -16
+      ],
+      "id": "ce549316-a771-4083-93a1-4ff39306dfca",
+      "name": "Get subscription",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0HZTPTGfuU2JwkY7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
+          "mode": "list",
+          "cachedResultName": "client-payment-tracker v1 (working)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1803452593,
+          "mode": "list",
+          "cachedResultName": "Clients",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=1803452593"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "client_id",
+              "lookupValue": "={{ $('Get subscription').item.json.client_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        544,
+        -16
+      ],
+      "id": "53145bed-04d1-4fb5-b2df-6ad826532ded",
+      "name": "Get client",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0HZTPTGfuU2JwkY7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "=Payment received – ₹{{ $('Parse').item.json.amount.toLocaleString('en-IN') }}",
+        "message": "=Dear {{ $json.name }},<br><br>We have received your payment. Thank you.<br><br><b>Service:</b> {{ $('Get subscription').item.json.service_name }}<br><b>Amount:</b> ₹{{ $('Parse').item.json.amount.toLocaleString('en-IN') }}<br><b>Date:</b> {{ $('Parse').item.json.pay_date }}<br><b>Mode:</b> {{ $('Parse').item.json.mode }}<br><b>Reference:</b> {{ $('Parse').item.json.utr }}<br><br>Remaining balance for this service: <b>₹{{ Number($('Get subscription').item.json.outstanding).toLocaleString('en-IN') }}</b><br><br>Regards,<br>Accounts Team",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        -16
+      ],
+      "id": "2cb502db-98e2-40f1-8cc9-f0220f767ab6",
+      "name": "Send a message",
+      "webhookId": "26275800-0a3f-406b-ad9d-f6ee7a3a31a1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "B44fgGFeSLjou99P",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Parse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get subscription",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get subscription": {
+      "main": [
+        [
+          {
+            "node": "Get client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get client": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "l2aWTcpCmUsCZL7q",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "6b097b7d-4967-432c-97ee-ff1d72fe5ad7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0763115cb759c4867dae5b1d31b13df9fde25195b205e51ed2c98aa77b4cce66"
+  },
+  "nodeGroups": [],
+  "id": "28Ii3R35QlVSgzrw",
+  "tags": []
+}

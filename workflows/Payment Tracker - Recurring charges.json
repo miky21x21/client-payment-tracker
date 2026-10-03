@@ -1,0 +1,579 @@
+{
+  "name": "Payment Tracker - Recurring charges",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -400,
+        -48
+      ],
+      "id": "319a0c34-fed5-4c25-a4fd-139c8d182e66",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
+          "mode": "list",
+          "cachedResultName": "client-payment-tracker v1 (working)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1806586767,
+          "mode": "list",
+          "cachedResultName": "Subscriptions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=1806586767"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -256,
+        -48
+      ],
+      "id": "8b9742e1-9ed8-40c8-9599-5dc383e5a6dc",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0HZTPTGfuU2JwkY7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "12cc08e5-f406-4410-a91f-65e97b0b8560",
+              "name": "charge_id",
+              "value": "={{ 'CH-' + $json.sub_id + '-' + DateTime.fromFormat($json.next_due_date,'dd-MMM-yyyy').toFormat('yyyyMMdd') }}",
+              "type": "string"
+            },
+            {
+              "id": "d4a4b9c6-670c-44f7-8241-aaa0e961f4ca",
+              "name": "sub_id",
+              "value": "={{ $json.sub_id }}",
+              "type": "string"
+            },
+            {
+              "id": "8a905b81-d852-455e-a6d5-0d08573d6c48",
+              "name": "client_id",
+              "value": "={{ $json.client_id }}",
+              "type": "string"
+            },
+            {
+              "id": "abb68403-08e5-43c8-adb2-ccb830bce060",
+              "name": "amount",
+              "value": "={{ Number(String($json.fee).replace(/[^0-9.]/g,'')) }}",
+              "type": "number"
+            },
+            {
+              "id": "46120819-d072-4e27-bce3-41cbb47d34a7",
+              "name": "charge_date",
+              "value": "={{ DateTime.fromFormat($json.next_due_date,'dd-MMM-yyyy').toFormat('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "f458fe97-10df-4de0-a7cb-ad777cde3e61",
+              "name": "period",
+              "value": "={{ $json.billing_cycle === 'Yearly' ? 'FY ' + DateTime.fromFormat($json.next_due_date,'dd-MMM-yyyy').toFormat('yyyy') : DateTime.fromFormat($json.next_due_date,'dd-MMM-yyyy').toFormat('MMM yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "07c46e28-f37a-451e-a842-230bcf3867c6",
+              "name": "created_by",
+              "value": "n8n",
+              "type": "string"
+            },
+            {
+              "id": "86e746cb-7ad9-4f57-9d7f-5dd5bff35fae",
+              "name": "new_next_due",
+              "value": "={{ $json.billing_cycle === 'Monthly' ? DateTime.fromFormat($json.next_due_date,'dd-MMM-yyyy').plus({months:1}).toFormat('yyyy-MM-dd') : $json.billing_cycle === 'Yearly' ? DateTime.fromFormat($json.next_due_date,'dd-MMM-yyyy').plus({years:1}).toFormat('yyyy-MM-dd') : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "de4ed957-77af-4978-bac3-83e66af472a6",
+              "name": "new_active",
+              "value": "={{ $json.billing_cycle === 'One-time' ? 'N' : 'Y' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        48,
+        -48
+      ],
+      "id": "4a0b9248-7de4-45d1-8f6e-b5e9868520f1",
+      "name": "Build charge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c1aaa54d-e205-4a09-a611-b87ba86ce40c",
+              "leftValue": "={{ $json.active }}",
+              "rightValue": "Y",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "6885bf81-92c6-4639-8ac9-fed11fee49ea",
+              "leftValue": "={{ $json.next_due_date }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "407a92bf-f9e1-4630-a426-316b6c048aa1",
+              "leftValue": "={{ DateTime.fromFormat($json.next_due_date, 'dd-MMM-yyyy') <= $now.startOf('day') }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -112,
+        -48
+      ],
+      "id": "8e3b9cd2-905d-4df3-9c2e-0b11fcc575e3",
+      "name": "Due today"
+    },
+    {
+      "parameters": {
+        "operation": "removeItemsSeenInPreviousExecutions",
+        "dedupeValue": "={{ $json.charge_id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        224,
+        -48
+      ],
+      "id": "ddaedeae-2d07-4b24-951a-d187df41910c",
+      "name": "Remove Duplicates"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
+          "mode": "list",
+          "cachedResultName": "client-payment-tracker v1 (working)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1123065372,
+          "mode": "list",
+          "cachedResultName": "Charges",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=1123065372"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "charge_id": "={{ $json.charge_id }}",
+            "sub_id": "={{ $json.sub_id }}",
+            "client_id": "={{ $json.client_id }}",
+            "amount": "={{ $json.amount }}",
+            "charge_date": "={{ $json.charge_date }}",
+            "period": "={{ $json.period }}",
+            "created_by": "={{ $json.created_by }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "charge_id",
+              "displayName": "charge_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sub_id",
+              "displayName": "sub_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "client_id",
+              "displayName": "client_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amount",
+              "displayName": "amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "charge_date",
+              "displayName": "charge_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "period",
+              "displayName": "period",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_by",
+              "displayName": "created_by",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        368,
+        -48
+      ],
+      "id": "676cf061-ca4a-464c-8137-9dcb847a8ae6",
+      "name": "Append to Charges",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0HZTPTGfuU2JwkY7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
+          "mode": "list",
+          "cachedResultName": "client-payment-tracker v1 (working)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1806586767,
+          "mode": "list",
+          "cachedResultName": "Subscriptions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=1806586767"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "sub_id": "={{ $('Build charge').item.json.sub_id }}",
+            "next_due_date": "={{ $('Build charge').item.json.new_next_due }}",
+            "active": "={{ $('Build charge').item.json.new_active }}"
+          },
+          "matchingColumns": [
+            "sub_id"
+          ],
+          "schema": [
+            {
+              "id": "sub_id",
+              "displayName": "sub_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "client_id",
+              "displayName": "client_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "service_id",
+              "displayName": "service_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fee",
+              "displayName": "fee",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "start_date",
+              "displayName": "start_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "next_due_date",
+              "displayName": "next_due_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "active",
+              "displayName": "active",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "client_name",
+              "displayName": "client_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "service_name",
+              "displayName": "service_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "billing_cycle",
+              "displayName": "billing_cycle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "billed",
+              "displayName": "billed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "received",
+              "displayName": "received",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "outstanding",
+              "displayName": "outstanding",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        512,
+        -48
+      ],
+      "id": "d0237f60-c907-4513-b9a6-799e77d5468d",
+      "name": "Update Subscriptions",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0HZTPTGfuU2JwkY7",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Due today",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Due today": {
+      "main": [
+        [
+          {
+            "node": "Build charge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build charge": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates": {
+      "main": [
+        [
+          {
+            "node": "Append to Charges",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append to Charges": {
+      "main": [
+        [
+          {
+            "node": "Update Subscriptions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "l2aWTcpCmUsCZL7q"
+  },
+  "versionId": "4ceb5035-4942-4ed3-9b18-6f8261a44ff7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0763115cb759c4867dae5b1d31b13df9fde25195b205e51ed2c98aa77b4cce66"
+  },
+  "nodeGroups": [],
+  "id": "O3i5TAN5BCAmhITA",
+  "tags": []
+}
