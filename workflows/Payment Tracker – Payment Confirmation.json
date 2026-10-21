@@ -12,17 +12,13 @@
         },
         "documentId": {
           "__rl": true,
-          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
-          "mode": "list",
-          "cachedResultName": "client-payment-tracker v1 (working)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+          "value": "YOUR_SHEET_ID",
+          "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": 271510427,
-          "mode": "list",
-          "cachedResultName": "Payments",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=271510427"
+          "value": "Payments",
+          "mode": "name"
         },
         "event": "rowAdded",
         "options": {}
@@ -37,7 +33,7 @@
       "name": "Google Sheets Trigger",
       "credentials": {
         "googleSheetsTriggerOAuth2Api": {
-          "id": "1I5IHbjQ7aJayc6G",
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL",
           "name": "Google Sheets Trigger account"
         }
       }
@@ -100,24 +96,19 @@
         -16
       ],
       "id": "73e045c0-9123-49d1-a461-9eabe84d8d9d",
-      "name": "Wait",
-      "webhookId": "bb4f062c-5d0f-4a7f-8d0d-6ee83959b0d5"
+      "name": "Wait"
     },
     {
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
-          "mode": "list",
-          "cachedResultName": "client-payment-tracker v1 (working)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+          "value": "YOUR_SHEET_ID",
+          "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1806586767,
-          "mode": "list",
-          "cachedResultName": "Subscriptions",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=1806586767"
+          "value": "Subscriptions",
+          "mode": "name"
         },
         "filtersUI": {
           "values": [
@@ -139,7 +130,7 @@
       "name": "Get subscription",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "0HZTPTGfuU2JwkY7",
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL",
           "name": "Google Sheets account"
         }
       }
@@ -148,17 +139,13 @@
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
-          "mode": "list",
-          "cachedResultName": "client-payment-tracker v1 (working)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+          "value": "YOUR_SHEET_ID",
+          "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1803452593,
-          "mode": "list",
-          "cachedResultName": "Clients",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=1803452593"
+          "value": "Clients",
+          "mode": "name"
         },
         "filtersUI": {
           "values": [
@@ -180,7 +167,7 @@
       "name": "Get client",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "0HZTPTGfuU2JwkY7",
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL",
           "name": "Google Sheets account"
         }
       }
@@ -202,10 +189,9 @@
       ],
       "id": "2cb502db-98e2-40f1-8cc9-f0220f767ab6",
       "name": "Send a message",
-      "webhookId": "26275800-0a3f-406b-ad9d-f6ee7a3a31a1",
       "credentials": {
         "gmailOAuth2": {
-          "id": "B44fgGFeSLjou99P",
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL",
           "name": "Gmail account"
         }
       }
@@ -279,11 +265,6 @@
     "availableInMCP": false
   },
   "versionId": "6b097b7d-4967-432c-97ee-ff1d72fe5ad7",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "0763115cb759c4867dae5b1d31b13df9fde25195b205e51ed2c98aa77b4cce66"
-  },
   "nodeGroups": [],
-  "id": "28Ii3R35QlVSgzrw",
   "tags": []
 }

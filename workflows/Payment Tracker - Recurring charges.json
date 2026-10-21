@@ -24,17 +24,13 @@
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
-          "mode": "list",
-          "cachedResultName": "client-payment-tracker v1 (working)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+          "value": "YOUR_SHEET_ID",
+          "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1806586767,
-          "mode": "list",
-          "cachedResultName": "Subscriptions",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=1806586767"
+          "value": "Subscriptions",
+          "mode": "name"
         },
         "options": {}
       },
@@ -48,7 +44,7 @@
       "name": "Get row(s) in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "0HZTPTGfuU2JwkY7",
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL",
           "name": "Google Sheets account"
         }
       }
@@ -198,17 +194,13 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
-          "mode": "list",
-          "cachedResultName": "client-payment-tracker v1 (working)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+          "value": "YOUR_SHEET_ID",
+          "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1123065372,
-          "mode": "list",
-          "cachedResultName": "Charges",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=1123065372"
+          "value": "Charges",
+          "mode": "name"
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -304,7 +296,7 @@
       "name": "Append to Charges",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "0HZTPTGfuU2JwkY7",
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL",
           "name": "Google Sheets account"
         }
       }
@@ -314,17 +306,13 @@
         "operation": "update",
         "documentId": {
           "__rl": true,
-          "value": "1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc",
-          "mode": "list",
-          "cachedResultName": "client-payment-tracker v1 (working)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit?usp=drivesdk"
+          "value": "YOUR_SHEET_ID",
+          "mode": "id"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1806586767,
-          "mode": "list",
-          "cachedResultName": "Subscriptions",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lLISyT-6uFTUb8qx2dzAhfi9yCsNwXWulG7y6ve7vFc/edit#gid=1806586767"
+          "value": "Subscriptions",
+          "mode": "name"
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -484,7 +472,7 @@
       "name": "Update Subscriptions",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "0HZTPTGfuU2JwkY7",
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL",
           "name": "Google Sheets account"
         }
       }
@@ -569,11 +557,6 @@
     "errorWorkflow": "l2aWTcpCmUsCZL7q"
   },
   "versionId": "4ceb5035-4942-4ed3-9b18-6f8261a44ff7",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "0763115cb759c4867dae5b1d31b13df9fde25195b205e51ed2c98aa77b4cce66"
-  },
   "nodeGroups": [],
-  "id": "O3i5TAN5BCAmhITA",
   "tags": []
 }

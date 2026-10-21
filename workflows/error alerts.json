@@ -27,10 +27,9 @@
       ],
       "id": "c101c848-71c4-4576-87b2-f23a0fd7df95",
       "name": "Send a message",
-      "webhookId": "7351548b-30b9-4562-83e6-b03c0e226962",
       "credentials": {
         "gmailOAuth2": {
-          "id": "B44fgGFeSLjou99P",
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL",
           "name": "Gmail account"
         }
       }
@@ -60,11 +59,6 @@
     "availableInMCP": false
   },
   "versionId": "fc50f6b6-f266-480b-aa2f-5156680f6035",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "0763115cb759c4867dae5b1d31b13df9fde25195b205e51ed2c98aa77b4cce66"
-  },
   "nodeGroups": [],
-  "id": "l2aWTcpCmUsCZL7q",
   "tags": []
 }
