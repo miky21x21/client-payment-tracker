@@ -6,6 +6,12 @@ Built for businesses that provide a service first and collect payment later — 
 
 > The design came from a real request posted by a small professional-services owner managing 200+ clients and 10+ services on spreadsheets. Their non-negotiable requirement: *staff must be able to record a payment without seeing what any client is charged, what they owe, or what the business earns.*
 
+## 📺 Demo video
+
+[![Client Payment Tracker demo](https://img.youtube.com/vi/ikGRrKMLUP4/maxresdefault.jpg)](https://youtu.be/ikGRrKMLUP4)
+
+Watch the full walkthrough: automatic monthly billing in n8n, double-billing protection, staff logging a payment through the form, balances updating instantly, the client's automatic receipt email, and the owner dashboard. [▶ Watch on YouTube](https://youtu.be/ikGRrKMLUP4)
+
 ---
 
 ## The business problem
